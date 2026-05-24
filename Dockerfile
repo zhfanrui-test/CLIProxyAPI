@@ -32,4 +32,7 @@ ENV TZ=Asia/Shanghai
 
 RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && echo "${TZ}" > /etc/timezone
 
-CMD ["sh", "-c", "envsubst < /CLIProxyAPI/config.example.yaml > /CLIProxyAPI/config.yaml && ./CLIProxyAPI"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
