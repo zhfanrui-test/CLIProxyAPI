@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 pwd
 ls -la /CLIProxyAPI
@@ -14,13 +14,14 @@ if [ -n "${CPA_AUTH_TGZ_B64:-}" ]; then
   chmod -R go-rwx /root/.cli-proxy-api
 fi
 
+ls -la /root/.cli-proxy-api
+
 echo "Running envsubst..."
 envsubst < /CLIProxyAPI/config.example.yaml > /CLIProxyAPI/config.yaml
 
 echo "Generated config exists:"
 ls -lh /CLIProxyAPI/config.yaml
 
-echo "Unresolved vars:"
-grep -n '\${[A-Za-z_][A-Za-z0-9_]*}' /CLIProxyAPI/config.yaml || true
+cat /CLIProxyAPI/config.yaml
 
-exec /CLIProxyAPI/CLIProxyAPI
+exec ./CLIProxyAPI
